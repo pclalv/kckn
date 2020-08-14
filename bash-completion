@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+__kckn_kc_complete() {
+  local sorted_clusters_and_cluster_aliases
+
+  sorted_clusters_and_cluster_aliases="$(
+    (
+      yj < "${KCKN_BASE_KUBECONFIG}" | jq -r '.clusters | map(.name)[]'
+      awk '{print $1}' "${KCKN_CLUSTER_ALIASES}"
+    ) | sort -u
+  )"
+
+  COMPREPLY=(
+    $(compgen -W "${sorted_clusters_and_cluster_aliases}" "${COMP_WORDS[1]}")
+  )
+}
+
+complete -F __kckn_kc_complete kc
+
+__kckn_kn_complete() {
+  local sorted_namespaces_and_namespace_aliases
+
+  sorted_namespaces_and_namespace_aliases="$(
+    (
+      kubectl get namespace -ojson | jq -r '.items | map(.metadata.name)[]'
+      awk '{print $1}' "${KCKN_NAMESPACE_ALIASES}"
+    ) | sort -u
+  )"
+
+  COMPREPLY=(
+    $(compgen -W "${sorted_namespaces_and_namespace_aliases}" "${COMP_WORDS[1]}")
+  )
+}
+
+complete -F __kckn_kn_complete kn
