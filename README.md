@@ -27,7 +27,7 @@ kc='. kc'`.
 
 ## Installation
 
-1. Make sure that these scipts are on your `PATH`.
+1. Make sure that the `kc` and `kn` scipts are on your `PATH`.
 2. Make sure that your local copies of these scripts are executable.
 3. Make sure that your base kubeconfig (see
    [configuration](#Configuration) below) contains all of the users
